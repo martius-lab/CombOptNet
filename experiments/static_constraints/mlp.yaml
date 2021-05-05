@@ -1,0 +1,10 @@
+# settings file for random constraints with mlp
+
+"__import__": "experiments/static_constraints/base.yaml"
+
+"trainer_params":
+  "trainer_name": "MLPTrainer"
+
+  "model_params":
+    "model_name": "RandomConstraintsMLP"
+    "hidden_layer_size": 512

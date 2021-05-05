@@ -1,0 +1,11 @@
+# settings file for knapsack with mlp
+
+"__import__": "experiments/knapsack/base.yaml"
+
+"trainer_params":
+  "trainer_name": "MLPTrainer"
+
+  "model_params":
+    "model_name": "KnapsackMLP"
+    "reduced_embed_dim": 100
+    "hidden_layer_size": 100

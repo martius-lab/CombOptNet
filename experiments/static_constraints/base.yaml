@@ -1,0 +1,29 @@
+# base settings file for static constraints experiments
+
+"seed": null
+
+"working_dir": "results/static_constraints/1"
+"use_ray": false
+"ray_params":
+  "num_cpus": 20
+
+"data_params":
+  "base_dataset_path": ".../datasets" # Add correct dataset path here ".../datasets"
+  "dataset_type": "static_constraints"
+  "dataset_specification": "set_covering"  # "dense_random", "binary_random" or "set_covering"
+  "dataset_seed": 0
+  "num_gt_variables": 16
+  "num_gt_constraints": 8
+  "train_dataset_size": 1600
+  "loader_params":
+    "batch_size": 8
+    "shuffle": true
+
+"train_epochs": 100
+"eval_every": 10
+"trainer_params":
+  "use_cuda": false
+  "loss_name": "MSE"
+  "optimizer_name": "Adam"
+  "optimizer_params":
+    "lr": 0.0005

@@ -1,0 +1,17 @@
+# settings file for random constraints with cvxpy
+
+"__import__": "experiments/static_constraints/base.yaml"
+
+"trainer_params":
+  "trainer_name": "RandomConstraintLearningTrainer"
+
+  "model_params":
+    "constraint_module_params":
+      "num_constraints": 2
+      "normalize_constraints": true
+      "feasible_point": "random_corner"
+
+
+    "solver_module_params":
+      "solver_name": "Cvxpy"
+      "use_entropy": false

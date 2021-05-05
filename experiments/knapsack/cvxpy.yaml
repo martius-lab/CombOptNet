@@ -1,0 +1,14 @@
+# settings file for knapsack with cvxpy
+
+"__import__": "experiments/knapsack/base.yaml"
+
+"trainer_params":
+  "trainer_name": "KnapsackConstraintLearningTrainer"
+
+  "model_params":
+    "backbone_module_params":
+      "hidden_layer_size": 512
+
+    "solver_module_params":
+      "solver_name": "Cvxpy"
+      "use_entropy": true
