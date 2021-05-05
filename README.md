@@ -4,7 +4,7 @@
 1) Run `pipenv install` (at your own risk with `--skip-lock` to save some time).
 2) From within the pipenv environment run `python3 -m pip install -i https://pypi.gurobi.com gurobipy`.
 3) Obtain a [license](https://www.gurobi.com/documentation/9.1/quickstart_mac/obtaining_a_grb_license.html) and download/set it.
-4) Download and extract the [datasets](https://sites.google.com/view/comboptnet).
+4) Download and extract the [datasets](https://edmond.mpdl.mpg.de/imeji/collection/Z_abYaB4ggQTS_G0?q=).
 
 ## Usage
 For `[experiment] = knapsack` or `[experiment] = static_constraints`:
