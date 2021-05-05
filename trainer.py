@@ -154,4 +154,4 @@ class KnapsackConstraintLearningTrainer(ConstraintLearningTrainerBase):
                                               knapsack_capacity=self.backbone_module.knapsack_capacity)
         else:
             y_denorm_rounded = y_denorm
-        return y_denorm, y_denorm_rounded, cost_vector
+        return y_denorm, y_denorm_rounded, {}, cost_vector
