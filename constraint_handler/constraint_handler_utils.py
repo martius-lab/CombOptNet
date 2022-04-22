@@ -1,7 +1,12 @@
-import numpy as np
+import random
+from itertools import chain, combinations
 
-from utils.utils import general_sum, general_cat, general_l2norm, epsilon_constant, powerset, \
-    sample_at_least_one_of_each
+import numpy as np
+import torch
+from torch import Tensor
+from torch.nn.parameter import Parameter
+
+epsilon_constant = 1e-8
 
 
 def sample_constraints(constraint_type, **params):
@@ -119,3 +124,63 @@ def compute_constraints_in_base_coordinate_system(constraints_in_offset_system, 
     b_prime = b - general_sum(A * offsets, axis=-1)
     constraints_in_base_system = general_cat([A, b_prime[..., None]], axis=-1)
     return constraints_in_base_system
+
+
+def powerset(iterable):
+    "list(powerset([1,2,3])) --> [(), (1,), (2,), (3,), (1,2), (1,3), (2,3), (1,2,3)]"
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
+
+
+def sample_at_least_one_of_each(subsets, num_classes, num_samples, num_iterations=1000):
+    min_number_of_subsets_containing_idx = 1
+    for _ in range(num_iterations):
+        good_sample = True
+        samples = random.sample(subsets, num_samples)
+        # ensure each class is present in the drawn subsets
+        for i in range(num_classes):
+            num_subsets_containing_i = len([s for s in samples if i in s])
+            if num_subsets_containing_i <= min_number_of_subsets_containing_idx:
+                good_sample = False
+                break
+        if good_sample:
+            return samples
+    raise ValueError(
+        f'Could not draw {num_samples} samples from {len(subsets)} subsets that contain a representative of each of '
+        f'the {num_classes} classes in {num_iterations} iterations.')
+
+
+def torch_parameter_from_numpy(array):
+    param = Parameter(Tensor(*array.shape))
+    param.data = torch.from_numpy(array)
+    return param
+
+
+def general_cat(list_of_arrays, axis):
+    if isinstance(list_of_arrays[0], torch.Tensor):
+        concatenated_array = torch.cat(list_of_arrays, dim=axis)
+    elif isinstance(list_of_arrays[0], np.ndarray):
+        concatenated_array = np.concatenate(list_of_arrays, axis=axis)
+    else:
+        raise NotImplementedError
+    return concatenated_array
+
+
+def general_sum(array, axis):
+    if isinstance(array, torch.Tensor):
+        summed_array = torch.sum(array, dim=axis)
+    elif isinstance(array, np.ndarray):
+        summed_array = np.sum(array, axis=axis)
+    else:
+        raise NotImplementedError
+    return summed_array
+
+
+def general_l2norm(array, axis, keepdims):
+    if isinstance(array, torch.Tensor):
+        norm = torch.norm(array, p=2, dim=axis, keepdim=keepdims)
+    elif isinstance(array, np.ndarray):
+        norm = np.linalg.norm(array, axis=axis, keepdims=keepdims)
+    else:
+        raise NotImplementedError
+    return norm
