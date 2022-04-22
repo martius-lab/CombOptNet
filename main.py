@@ -2,10 +2,11 @@ import os
 import sys
 
 import ray
+from smart_settings import load
 
 from data import load_dataset
 from trainer import get_trainer
-from utils.utils import print_eval_acc, print_train_acc, load_with_default_yaml, save_dict_as_one_line_csv
+from utils import print_eval_acc, print_train_acc, save_dict_as_one_line_csv
 
 
 def main(working_dir, seed, train_epochs, eval_every, use_ray, ray_params, data_params, trainer_params):
@@ -38,5 +39,5 @@ def main(working_dir, seed, train_epochs, eval_every, use_ray, ray_params, data_
 
 if __name__ == "__main__":
     param_path = sys.argv[1]
-    param_dict = load_with_default_yaml(path=param_path)
+    param_dict = load(filename=param_path)
     main(**param_dict)

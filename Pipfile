@@ -8,11 +8,11 @@ verify_ssl = true
 [packages]
 numpy = "*"
 torch = "==1.5.0"
-ray = "*"
-jax = ">=0.2.8"
-jaxlib = ">=0.1.58"
 cvxpy = "*"
 cvxpylayers = "*"
+comboptnet-module = {git = "ssh://git@github.com/martius-lab/CombOptNet.git@comboptnet-module"}
+constraint-handler = {git = "ssh://git@github.com/martius-lab/CombOptNet.git@constraint-handler"}
+smart-settings = {git = "ssh://git@github.com/martius-lab/smart-settings.git"}
 
 
 [requires]

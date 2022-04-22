@@ -2,16 +2,9 @@ import csv
 import os
 import pickle
 import random
-import sys
-from itertools import chain, combinations
 
 import numpy as np
 import torch
-import yaml
-from torch import Tensor
-from torch.nn.parameter import Parameter
-
-epsilon_constant = 1e-8
 
 
 class AverageMeter(object):
@@ -161,73 +154,6 @@ def set_seed(seed):
         np.random.seed(seed)
 
 
-class ParallelProcessing:
-    def __init__(self):
-        self.remote_fns = dict()
-
-    def ray_available(self):
-        if 'ray' in sys.modules and sys.modules['ray'].is_initialized():
-            self.ray = sys.modules['ray']
-            return True
-        else:
-            return False
-
-    def get_remote(self, function):
-        if type(function) is self.ray.remote_function.RemoteFunction:
-            return function.remote
-        else:
-            if function in self.remote_fns:
-                remote_fn = self.remote_fns[function]
-            else:
-                remote_fn = self.ray.remote(function)
-                self.remote_fns[function] = remote_fn
-            assert isinstance(remote_fn, self.ray.remote_function.RemoteFunction)
-            return remote_fn.remote
-
-    def maybe_parallelize(self, function, static_kwargs, dynamic_kwargs):
-        if self.ray_available():
-            remote_fn = self.get_remote(function)
-            return self.ray.get([remote_fn(**static_kwargs, **kwargs) for kwargs in dynamic_kwargs])
-        else:
-            return [function(**static_kwargs, **kwargs) for kwargs in dynamic_kwargs]
-
-
-def torch_parameter_from_numpy(array):
-    param = Parameter(Tensor(*array.shape))
-    param.data = torch.from_numpy(array)
-    return param
-
-
-def general_cat(list_of_arrays, axis):
-    if isinstance(list_of_arrays[0], torch.Tensor):
-        concatenated_array = torch.cat(list_of_arrays, dim=axis)
-    elif isinstance(list_of_arrays[0], np.ndarray):
-        concatenated_array = np.concatenate(list_of_arrays, axis=axis)
-    else:
-        raise NotImplementedError
-    return concatenated_array
-
-
-def general_sum(array, axis):
-    if isinstance(array, torch.Tensor):
-        summed_array = torch.sum(array, dim=axis)
-    elif isinstance(array, np.ndarray):
-        summed_array = np.sum(array, axis=axis)
-    else:
-        raise NotImplementedError
-    return summed_array
-
-
-def general_l2norm(array, axis, keepdims):
-    if isinstance(array, torch.Tensor):
-        norm = torch.norm(array, p=2, dim=axis, keepdim=keepdims)
-    elif isinstance(array, np.ndarray):
-        norm = np.linalg.norm(array, axis=axis, keepdims=keepdims)
-    else:
-        raise NotImplementedError
-    return norm
-
-
 def compute_normalized_solution(y, lb, ub):
     mean = (lb + ub) / 2
     size = ub - lb
@@ -273,18 +199,6 @@ def knapsack_round(y_denorm, constraints, knapsack_capacity):
     return rounded_sol
 
 
-def load_with_default_yaml(path):
-    base_path = os.getcwd()
-    with open(os.path.join(base_path, path), 'r') as stream:
-        param_dict = yaml.safe_load(stream)
-    default_yaml = param_dict.pop('__import__', None)
-    if default_yaml is not None:
-        with open(os.path.join(base_path, default_yaml), 'r') as stream:
-            default_dict = yaml.safe_load(stream)
-        param_dict = merge(param_dict, default_dict)
-    return param_dict
-
-
 def merge(source, destination):
     for key, value in source.items():
         if isinstance(value, dict):
@@ -294,30 +208,6 @@ def merge(source, destination):
             destination[key] = value
 
     return destination
-
-
-def powerset(iterable):
-    "list(powerset([1,2,3])) --> [(), (1,), (2,), (3,), (1,2), (1,3), (2,3), (1,2,3)]"
-    s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
-
-
-def sample_at_least_one_of_each(subsets, num_classes, num_samples, num_iterations=1000):
-    min_number_of_subsets_containing_idx = 1
-    for _ in range(num_iterations):
-        good_sample = True
-        samples = random.sample(subsets, num_samples)
-        # ensure each class is present in the drawn subsets
-        for i in range(num_classes):
-            num_subsets_containing_i = len([s for s in samples if i in s])
-            if num_subsets_containing_i <= min_number_of_subsets_containing_idx:
-                good_sample = False
-                break
-        if good_sample:
-            return samples
-    raise ValueError(
-        f'Could not draw {num_samples} samples from {len(subsets)} subsets that contain a representative of each of '
-        f'the {num_classes} classes in {num_iterations} iterations.')
 
 
 def print_eval_acc(metrics):

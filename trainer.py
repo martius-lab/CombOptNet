@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 
 import torch
+from constraint_handler import StaticConstraintModule
 
-from models.models import KnapsackExtractWeightsCostFromEmbeddingMLP, baseline_mlp_dict
-from models.modules import get_solver_module, StaticConstraintModule, CvxpyModule, CombOptNetModule
-from utils.utils import loss_from_string, optimizer_from_string, set_seed, AvgMeters, compute_metrics, \
+from models import KnapsackExtractWeightsCostFromEmbeddingMLP, baseline_mlp_dict
+from solver_modules import get_solver_module, CvxpyModule, CombOptNetModule
+from utils import loss_from_string, optimizer_from_string, set_seed, AvgMeters, compute_metrics, \
     knapsack_round, compute_normalized_solution, compute_denormalized_solution, solve_unconstrained
 
 

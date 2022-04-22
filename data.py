@@ -3,12 +3,13 @@ import sys
 
 import numpy as np
 import torch
+from comboptnet_module import ilp_solver
+from constraint_handler import sample_constraints
+from smart_settings import load
 from torch.utils import data
 
-from models.comboptnet import ilp_solver
-from utils.constraint_generation import sample_constraints
-from utils.utils import compute_normalized_solution, save_pickle, load_pickle, AvgMeters, check_equal_ys, \
-    solve_unconstrained, load_with_default_yaml, save_dict_as_one_line_csv
+from utils import compute_normalized_solution, save_pickle, load_pickle, AvgMeters, check_equal_ys, \
+    solve_unconstrained, save_dict_as_one_line_csv
 
 
 def load_dataset(dataset_type, base_dataset_path, **dataset_params):
@@ -135,5 +136,5 @@ def main(working_dir, num_seeds, num_constraints, num_variables, data_gen_params
 
 if __name__ == "__main__":
     param_path = sys.argv[1]
-    param_dict = load_with_default_yaml(path=param_path)
+    param_dict = load(filename=param_path)
     main(**param_dict)
