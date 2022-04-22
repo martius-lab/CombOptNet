@@ -10,7 +10,7 @@ setup(
     url=None,
     packages=["comboptnet_module"],
     install_requires=[
-        "torch>=1.5.0",
+        "torch>=1.4.0",
         "numpy",
         "ray",
         "jax>=0.2.8",
