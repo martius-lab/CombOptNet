@@ -1,3 +1,5 @@
+import sys
+
 import jax.numpy as jnp
 
 epsilon_constant = 1e-8
@@ -81,3 +83,36 @@ def check_point_feasibility(point, constraints, lb, ub):
 
 def tensor_to_jax(tensor):
     return jnp.array(tensor.cpu().detach().numpy())
+
+
+class ParallelProcessing:
+    def __init__(self):
+        self.remote_fns = dict()
+
+    def ray_available(self):
+        if 'ray' in sys.modules and sys.modules['ray'].is_initialized():
+            self.ray = sys.modules['ray']
+            return True
+        else:
+            return False
+
+    def get_remote(self, function):
+        if type(function) is self.ray.remote_function.RemoteFunction:
+            return function.remote
+        else:
+            if function in self.remote_fns:
+                remote_fn = self.remote_fns[function]
+            else:
+                remote_fn = self.ray.remote(function)
+                self.remote_fns[function] = remote_fn
+            assert isinstance(remote_fn, self.ray.remote_function.RemoteFunction)
+            return remote_fn.remote
+
+    def maybe_parallelize(self, function, static_kwargs, dynamic_kwargs):
+        if self.ray_available():
+            remote_fn = self.get_remote(function)
+            return self.ray.get([remote_fn(**static_kwargs, **kwargs) for kwargs in dynamic_kwargs])
+        else:
+            return [function(**static_kwargs, **kwargs) for kwargs in dynamic_kwargs]
+
+

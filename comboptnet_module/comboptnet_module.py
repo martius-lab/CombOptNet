@@ -7,9 +7,8 @@ import torch
 from gurobipy import GRB, quicksum
 from jax import grad
 
-from utils.comboptnet_utils import compute_delta_y, check_point_feasibility, softmin, \
-    signed_euclidean_distance_constraint_point, tensor_to_jax
-from utils.utils import ParallelProcessing
+from comboptnet_module.comboptnet_module_utils import compute_delta_y, check_point_feasibility, softmin, \
+    signed_euclidean_distance_constraint_point, tensor_to_jax, ParallelProcessing
 
 
 class CombOptNetModule(torch.nn.Module):
