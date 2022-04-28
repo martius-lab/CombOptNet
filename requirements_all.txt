@@ -1,0 +1,47 @@
+absl-py==1.0.0
+aiosignal==1.2.0
+attrs==21.4.0
+certifi==2021.10.8
+charset-normalizer==2.0.12
+click==8.0.4
+comboptnet-module @ git+ssh://git@github.com/martius-lab/CombOptNet.git@8a9b60787dac042a9fda96970ad8d734e3b22060
+constraint-handler @ git+ssh://git@github.com/martius-lab/CombOptNet.git@e2b16c0f93bc3d6bf9078f66a73f67abde20806f
+cvxpy==1.1.19
+cvxpylayers==0.1.5
+dataclasses==0.8
+diffcp==1.0.19
+distlib==0.3.4
+ecos==2.0.10
+filelock==3.4.1
+flatbuffers==2.0
+frozenlist==1.2.0
+grpcio==1.43.0
+gurobipy==9.1.2
+idna==3.3
+importlib-metadata==4.8.3
+importlib-resources==5.4.0
+jax==0.2.17
+jaxlib==0.1.69
+jsonschema==3.2.0
+msgpack==1.0.3
+numpy==1.19.5
+opt-einsum==3.3.0
+osqp==0.6.2.post5
+platformdirs==2.4.0
+protobuf==3.19.4
+pybind11==2.9.2
+pyrsistent==0.18.0
+PyYAML==6.0
+qdldl==0.1.5.post2
+ray==1.12.0
+requests==2.27.1
+scipy==1.5.4
+scs==3.2.0
+six==1.16.0
+smart-settings @ git+ssh://git@github.com/martius-lab/smart-settings.git@85e42b2eff23c3ea1ddc544e8a1784841da64735
+threadpoolctl==3.1.0
+torch==1.10.2
+typing_extensions==4.1.1
+urllib3==1.26.9
+virtualenv==20.14.1
+zipp==3.6.0

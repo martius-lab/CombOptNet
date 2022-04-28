@@ -1,0 +1,11 @@
+numpy>=1.16.0
+torch>=1.4.0
+ray>=1.0.0
+cvxpy>=1.1.0
+cvxpylayers>=0.1.5
+jax>=0.2.12
+jaxlib>=0.1.64
+gurobipy>=9.1.0
+git+ssh://git@github.com/martius-lab/CombOptNet.git@comboptnet-module#egg=comboptnet-module
+git+ssh://git@github.com/martius-lab/CombOptNet.git@constraint-handler#egg=constraint-handler
+git+ssh://git@github.com/martius-lab/smart-settings.git#egg=smart-settings

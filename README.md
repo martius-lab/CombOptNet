@@ -16,8 +16,14 @@ a useful handler for initializing a learnable set of constraints is installed fr
 ## Replicating the experimental results
 #### Installation
 1) Run `pipenv install` (at your own risk with `--skip-lock` to save some time).
-2) Obtain a gurobi [license](https://www.gurobi.com/documentation/9.1/quickstart_mac/obtaining_a_grb_license.html) and download/set it.
-3) Download and extract the [datasets](https://edmond.mpdl.mpg.de/imeji/collection/Z_abYaB4ggQTS_G0?q=).
+1) Install in a virtual environment with python3.6 by running
+```
+python3 -m pip install --upgrade pip   
+python3 -m pip install wheel setuptools
+python3 -m pip install -r  requirements_all.txt
+```
+1) Obtain a gurobi [license](https://www.gurobi.com/documentation/9.1/quickstart_mac/obtaining_a_grb_license.html) and download/set it.
+1) Download and extract the [datasets](https://edmond.mpdl.mpg.de/imeji/collection/Z_abYaB4ggQTS_G0?q=).
 
 #### Usage
 For `[experiment] = knapsack` or `[experiment] = static_constraints`:

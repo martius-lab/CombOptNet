@@ -3,7 +3,7 @@
 "seed": null
 
 "working_dir": "results/knapsack/1"
-"use_ray": false
+"use_ray": true
 "ray_params":
   "num_cpus": 20
 
