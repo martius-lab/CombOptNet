@@ -11,10 +11,10 @@ setup(
     packages=["comboptnet_module"],
     install_requires=[
         "torch>=1.4.0",
-        "numpy",
-        "ray",
-        "jax>=0.2.8",
-        "jaxlib>=0.1.58",
-        "gurobipy",
+        "numpy>=1.16.0",
+        "ray>=1.0.0",
+        "jax>=0.2.12",
+        "jaxlib>=0.1.64",
+        "gurobipy>=9.1.0",
     ],
 )
