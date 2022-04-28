@@ -11,6 +11,6 @@ setup(
     packages=["constraint_handler"],
     install_requires=[
         "torch>=1.4.0",
-        "numpy"
+        "numpy>=1.16.0"
     ],
 )
